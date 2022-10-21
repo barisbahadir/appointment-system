@@ -17,7 +17,7 @@ public class ModelMapper {
         PollResponse pollResponse = new PollResponse();
         pollResponse.setId(poll.getId());
         pollResponse.setQuestion(poll.getQuestion());
-        pollResponse.setCreationDateTime(poll.getCreatedAt());
+        pollResponse.setCreationDateTime(poll.getCreateAt());
         pollResponse.setExpirationDateTime(poll.getExpirationDateTime());
         Instant now = Instant.now();
         pollResponse.setIsExpired(poll.getExpirationDateTime().isBefore(now));
