@@ -49,7 +49,7 @@ public class PollService {
         validatePageNumberAndSize(page, size);
 
         // Retrieve Polls
-        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createAt");
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createdAt");
         Page<Poll> polls = pollRepository.findAll(pageable);
 
         if (polls.getNumberOfElements() == 0) {
@@ -81,7 +81,7 @@ public class PollService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
 
         // Retrieve all polls created by the given username
-        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createAt");
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createdAt");
         Page<Poll> polls = pollRepository.findByCreatedBy(user.getId(), pageable);
 
         if (polls.getNumberOfElements() == 0) {
@@ -112,7 +112,7 @@ public class PollService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
 
         // Retrieve all pollIds in which the given username has voted
-        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createAt");
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createdAt");
         Page<Long> userVotedPollIds = voteRepository.findVotedPollIdsByUserId(user.getId(), pageable);
 
         if (userVotedPollIds.getNumberOfElements() == 0) {
@@ -124,7 +124,7 @@ public class PollService {
         // Retrieve all poll details from the voted pollIds.
         List<Long> pollIds = userVotedPollIds.getContent();
 
-        Sort sort = Sort.by(Sort.Direction.DESC, "createAt");
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
         List<Poll> polls = pollRepository.findByIdIn(pollIds, sort);
 
         // Map Polls to PollResponses containing vote counts and poll creator details
